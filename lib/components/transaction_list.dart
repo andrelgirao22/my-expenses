@@ -5,13 +5,14 @@ import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transations;
+  final void Function(String) onRemove;
 
-  TransactionList(this.transations);
+  TransactionList(this.transations, this.onRemove);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 430,
       child: transations.isEmpty
           ? Column(
               children: <Widget>[
@@ -22,7 +23,7 @@ class TransactionList extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 Container(
-                  height: 100,
+                  height: 200,
                   child: Image.asset(
                     'assets/images/waiting.png',
                     fit: BoxFit.cover,
@@ -55,6 +56,11 @@ class TransactionList extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline6,
                     ),
                     subtitle: Text(DateFormat('d MMM y').format(tr.date)),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                      onPressed: () => onRemove(tr.id),
+                    ),
                   ),
                 );
               },
